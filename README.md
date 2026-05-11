@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Here's what the AdSolem website needs, in order:
 
-## Getting Started
+Navigation
+Logo, Services, Products, Process, Contact, Get in Touch button
 
-First, run the development server:
+Hero
+Bold headline that speaks to the pain — something like "Your business runs on manual work. Ours fixes that." Subline explaining what AdSolem does. Two CTAs — Book a Call and Our Services.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+About
+One powerful paragraph. What AdSolem is, who it serves, what makes it different. No bullet points. Editorial tone.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Services
+What you actually do for clients — AI consulting, system design, deployment, ongoing support. Keep it to four service areas.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Products
+Three cards — TripMind, EduFlow, PulseAI. Each with a one line description and a Coming Soon or Learn More tag. competitive-intel as a fourth smaller mention underneath as the intelligence layer.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Process
+Three steps — Consult, Build, Deploy. Simple, confident, no fluff.
 
-## Learn More
+Verticals
+Travel, Education, Fitness and Wellness. One paragraph each explaining the specific problem you solve in that market.
 
-To learn more about Next.js, take a look at the following resources:
+Calculator
+Like the reference you shared — let visitors input their team size, manual hours, hourly cost. Output shows what automation saves them monthly. Makes the value tangible immediately.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contact
+Name, email, company, vertical interest, message. Clean form. No card, just inputs on the background.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Footer
+Logo, tagline, navigation links, verticals, social links, copyright.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The calculator is the most important addition. It transforms a brochure site into an interactive sales tool. That's what made the reference site feel premium and different.
