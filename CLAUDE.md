@@ -12,8 +12,8 @@ We work with a select number of clients. Our process is thorough, our timelines 
 
 Verticals
 Travel
-TripMind — your clients' AI trip companion.
-We build white-label AI systems for travel agencies that guide their clients through every moment of a trip in real time. Proactive reminders, dynamic itinerary updates, local intelligence, and personalised recommendations — all branded under your agency's name. Your clients travel better. They come back to you.
+Clio — Your journey, guided by Clio.
+An AI travel companion that knows your full itinerary, gives you a morning briefing before your day starts, and answers anything about your trip in real time. Like a brilliant local friend in your pocket for every journey. Live at https://clio-adsolem.vercel.app
 Education
 Coming soon.
 We are building an intelligent system for coaching institutes, tutoring centres, and online course creators — automating student progress reporting, personalised study planning, and parent communication so educators can focus entirely on teaching.

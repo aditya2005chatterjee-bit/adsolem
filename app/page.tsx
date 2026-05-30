@@ -48,11 +48,13 @@ const processSteps = [
 const products = [
   {
     num: "01",
-    name: "TripMind",
+    name: "Clio",
     tag: "Travel",
-    status: "Learn More",
+    tagline: "Your journey, guided by Clio.",
+    status: "Live",
     isLive: true,
-    body: "White-label AI trip companion for agencies. Real-time guidance, proactive reminders, dynamic itinerary updates, and personalised local recommendations — all under your brand.",
+    link: "https://clio-adsolem.vercel.app",
+    body: "An AI travel companion that knows your full itinerary, gives you a morning briefing before your day starts, and answers anything about your trip in real time. Like a brilliant local friend in your pocket for every journey.",
   },
   {
     num: "02",
@@ -285,9 +287,10 @@ function Products() {
               </span>
             </div>
             <h3>{product.name}</h3>
+            {product.tagline && <p className="product-tagline">{product.tagline}</p>}
             <p>{product.body}</p>
             {product.isLive && (
-              <a href="#contact" className="product-card-link">
+              <a href={product.link ?? "#contact"} className="product-card-link" target={product.link ? "_blank" : undefined} rel={product.link ? "noopener noreferrer" : undefined}>
                 Learn More <ArrowIcon />
               </a>
             )}
