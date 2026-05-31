@@ -1203,6 +1203,13 @@ main {
   border-color: rgba(201, 168, 76, 0.3);
 }
 
+.contact-pill-icon {
+  padding: 10px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .contact-glow-zone {
   position: relative;
   width: 100%;
@@ -1429,8 +1436,9 @@ main {
 }
 
 .footer-social a {
+  display: inline-flex;
+  align-items: center;
   color: rgba(248, 247, 244, 0.42);
-  font-size: 0.74rem;
   transition: color 180ms;
 }
 
@@ -1467,46 +1475,7 @@ main {
 /* ===== CUSTOM CURSOR ===== */
 
 @media (pointer: fine) {
-  * { cursor: none !important; }
-  .cursor-dot,
-  .cursor-ring { display: block; }
-}
-
-.cursor-dot {
-  position: fixed;
-  top: -3px;
-  left: -3px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #fff;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-  display: none;
-}
-
-.cursor-ring {
-  position: fixed;
-  top: -18px;
-  left: -18px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  pointer-events: none;
-  z-index: 9998;
-  will-change: transform;
-  transition: width 200ms ease, height 200ms ease, top 200ms ease, left 200ms ease, border-color 200ms ease;
-  display: none;
-}
-
-.cursor-ring.hovered {
-  top: -26px;
-  left: -26px;
-  width: 52px;
-  height: 52px;
-  border-color: rgba(255, 255, 255, 0.85);
+  body { cursor: url('/cursor.svg') 2 1, auto; }
 }
 
 /* ===== SCROLL PROGRESS ===== */

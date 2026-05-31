@@ -120,51 +120,6 @@ const whyPoints = [
   },
 ];
 
-function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    let rafId: number;
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX;
-      my = e.clientY;
-      if (dotRef.current) dotRef.current.style.transform = `translate(${mx}px,${my}px)`;
-    };
-
-    const tick = () => {
-      rx += (mx - rx) * 0.1;
-      ry += (my - ry) * 0.1;
-      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px,${ry}px)`;
-      rafId = requestAnimationFrame(tick);
-    };
-
-    const onOver = (e: PointerEvent) => {
-      const hit = !!(e.target as Element).closest("a,button,input,select,textarea,[role='button']");
-      ringRef.current?.classList.toggle("hovered", hit);
-    };
-
-    window.addEventListener("mousemove", onMove);
-    document.addEventListener("pointerover", onOver);
-    rafId = requestAnimationFrame(tick);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      document.removeEventListener("pointerover", onOver);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
-
-  return (
-    <>
-      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
-    </>
-  );
-}
 
 function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
@@ -612,8 +567,17 @@ function Contact() {
         <h2>Build with AdSolem Now.</h2>
         <div className="contact-pills">
           <a href="#calculator">Estimate automation value</a>
-          <a href="mailto:aditya2005.chatterjee@gmail.com">aditya2005.chatterjee@gmail.com</a>
-          <a href="https://x.com/AdityaC_411" target="_blank" rel="noopener noreferrer">@AdityaC_411 on X</a>
+          <a href="mailto:adsolemai@gmail.com" aria-label="Email Aditya" className="contact-pill-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="M3 7l9 6 9-6"/>
+            </svg>
+          </a>
+          <a href="https://x.com/AdityaC_411" target="_blank" rel="noopener noreferrer" aria-label="Aditya on X (Twitter)" className="contact-pill-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+            </svg>
+          </a>
         </div>
       </div>
 
@@ -709,8 +673,17 @@ function Footer() {
           </div>
           <p>AdSolem builds intelligent systems for businesses ready to operate smarter, compete harder, and grow faster.</p>
           <div className="footer-social">
-            <a href="mailto:aditya2005.chatterjee@gmail.com">aditya2005.chatterjee@gmail.com</a>
-            <a href="https://x.com/AdityaC_411" target="_blank" rel="noopener noreferrer">@AdityaC_411</a>
+            <a href="mailto:adsolemai@gmail.com" aria-label="Email Aditya">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="M3 7l9 6 9-6"/>
+              </svg>
+            </a>
+            <a href="https://x.com/AdityaC_411" target="_blank" rel="noopener noreferrer" aria-label="Aditya on X (Twitter)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+              </svg>
+            </a>
           </div>
         </div>
         <div className="footer-bottom">
@@ -745,7 +718,6 @@ export default function Home() {
 
   return (
     <main>
-      <Cursor />
       <ScrollProgress />
       <Navbar />
       <Hero />
