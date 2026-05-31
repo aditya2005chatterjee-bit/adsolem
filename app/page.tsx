@@ -566,7 +566,6 @@ function Contact() {
       <div className="contact-heading-area section-grid reveal">
         <h2>Build with AdSolem Now.</h2>
         <div className="contact-pills">
-          <a href="#calculator">Estimate automation value</a>
           <a href="mailto:adsolemai@gmail.com" aria-label="Email Aditya" className="contact-pill-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="3" y="5" width="18" height="14" rx="2"/>
