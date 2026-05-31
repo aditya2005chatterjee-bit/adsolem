@@ -107,8 +107,8 @@ const whyPoints = [
     body: "Our systems are built on real AI — not automation scripts or off-the-shelf tools rebranded with an AI label.",
   },
   {
-    label: "Vertical Focus",
-    body: "We work exclusively in travel, education, and fitness. Deep domain knowledge means better systems, faster.",
+    label: "Relevance",
+    body: "AI moves fast. We stay current so you don't have to. Every system we build is designed for a world that looks different in 12 months.",
   },
   {
     label: "Durability",
