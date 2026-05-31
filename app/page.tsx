@@ -612,6 +612,8 @@ function Contact() {
         <h2>Build with AdSolem Now.</h2>
         <div className="contact-pills">
           <a href="#calculator">Estimate automation value</a>
+          <a href="mailto:aditya2005.chatterjee@gmail.com">aditya2005.chatterjee@gmail.com</a>
+          <a href="https://x.com/AdityaC_411" target="_blank" rel="noopener noreferrer">@AdityaC_411 on X</a>
         </div>
       </div>
 
@@ -706,6 +708,10 @@ function Footer() {
             <SunMark />
           </div>
           <p>AdSolem builds intelligent systems for businesses ready to operate smarter, compete harder, and grow faster.</p>
+          <div className="footer-social">
+            <a href="mailto:aditya2005.chatterjee@gmail.com">aditya2005.chatterjee@gmail.com</a>
+            <a href="https://x.com/AdityaC_411" target="_blank" rel="noopener noreferrer">@AdityaC_411</a>
+          </div>
         </div>
         <div className="footer-bottom">
           <Brand />
