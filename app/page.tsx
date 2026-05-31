@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type ContactState = "idle" | "loading" | "success" | "error";
 
@@ -120,6 +120,110 @@ const whyPoints = [
   },
 ];
 
+function Cursor() {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    let rafId: number;
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      if (dotRef.current) dotRef.current.style.transform = `translate(${mx}px,${my}px)`;
+    };
+
+    const tick = () => {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px,${ry}px)`;
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const onOver = (e: PointerEvent) => {
+      const hit = !!(e.target as Element).closest("a,button,input,select,textarea,[role='button']");
+      ringRef.current?.classList.toggle("hovered", hit);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    document.addEventListener("pointerover", onOver);
+    rafId = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("pointerover", onOver);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
+      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
+    </>
+  );
+}
+
+function ScrollProgress() {
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+      if (barRef.current) barRef.current.style.width = `${pct}%`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return <div ref={barRef} className="scroll-progress-bar" aria-hidden="true" />;
+}
+
+function AnimatedNumber({ value }: { value: number }) {
+  const [displayed, setDisplayed] = useState(value);
+  const prevRef = useRef(value);
+  const rafRef = useRef<number>(undefined);
+
+  useEffect(() => {
+    const from = prevRef.current;
+    const to = value;
+    prevRef.current = to;
+    if (from === to) return;
+
+    const duration = 380;
+    const start = performance.now();
+    const animate = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - (1 - p) ** 3;
+      setDisplayed(Math.round(from + (to - from) * eased));
+      if (p < 1) rafRef.current = requestAnimationFrame(animate);
+    };
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(animate);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [value]);
+
+  return <>${displayed.toLocaleString("en-US")}</>;
+}
+
+function onCardTilt(e: React.MouseEvent<HTMLElement>) {
+  const el = e.currentTarget;
+  el.classList.add("tilting");
+  const { left, top, width, height } = el.getBoundingClientRect();
+  const x = (e.clientX - left) / width - 0.5;
+  const y = (e.clientY - top) / height - 0.5;
+  el.style.transform = `perspective(700px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg) translateZ(6px)`;
+}
+
+function onCardUntilt(e: React.MouseEvent<HTMLElement>) {
+  const el = e.currentTarget;
+  el.classList.remove("tilting");
+  el.style.transform = "";
+}
+
 function SunMark({ className = "" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 150 96" fill="none" aria-hidden="true">
@@ -160,16 +264,36 @@ function ArrowIcon() {
 }
 
 function Navbar() {
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    const ids = ["home", "about", "approach", "process", "products", "services", "calculator", "contact"];
+    const onScroll = () => {
+      const mid = window.innerHeight * 0.4;
+      let current = "";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= mid) current = id;
+      }
+      setActive(current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const is = (...ids: string[]) => ids.includes(active) ? "active" : "";
+
   return (
     <header className="site-header">
       <nav className="nav-shell" aria-label="Main navigation">
         <Brand />
         <div className="nav-links">
-          <a href="#about">About</a>
-          <a href="#approach">Approach</a>
-          <a href="#products">Products</a>
-          <a href="#services">Services</a>
-          <a href="#contact">Contact</a>
+          <a href="#about" className={is("about")}>About</a>
+          <a href="#approach" className={is("approach", "process")}>Approach</a>
+          <a href="#products" className={is("products")}>Products</a>
+          <a href="#services" className={is("services")}>Services</a>
+          <a href="#contact" className={is("calculator", "contact")}>Contact</a>
         </div>
         <a href="#contact" className="pill-button light">
           Get in Touch
@@ -306,7 +430,7 @@ function Products() {
       </div>
       <div className="products-grid-new">
         {products.map((product, i) => (
-          <article className={`product-card-new reveal reveal-d${i + 1}`} key={product.name}>
+          <article className={`product-card-new reveal reveal-d${i + 1}`} key={product.name} onMouseMove={onCardTilt} onMouseLeave={onCardUntilt}>
             <div className="product-card-top">
               <span className="product-num-large">{product.num}</span>
               <span className="product-tag-badge">{product.tag}</span>
@@ -344,6 +468,8 @@ function Services() {
           <article
             className={`service-card reveal reveal-d${i + 1}${service.featured ? " featured" : ""}`}
             key={service.name}
+            onMouseMove={onCardTilt}
+            onMouseLeave={onCardUntilt}
           >
             {service.featured && (
               <span className="service-recommended-badge">Recommended</span>
@@ -441,7 +567,7 @@ function Calculator() {
         </div>
         <div className="calculator-result">
           <small>Estimated manual-work drag</small>
-          <strong>${monthlyCost.toLocaleString("en-US")}</strong>
+          <strong><AnimatedNumber value={monthlyCost} /></strong>
           <span>per month</span>
           <p>
             {monthlyHours.toLocaleString("en-US")} hours per month — roughly ${annualCost.toLocaleString("en-US")} per year — can be redirected into higher-leverage work.
@@ -613,6 +739,8 @@ export default function Home() {
 
   return (
     <main>
+      <Cursor />
+      <ScrollProgress />
       <Navbar />
       <Hero />
       <About />

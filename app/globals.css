@@ -1447,6 +1447,79 @@ main {
   justify-self: end;
 }
 
+/* ===== CUSTOM CURSOR ===== */
+
+@media (pointer: fine) {
+  * { cursor: none !important; }
+  .cursor-dot,
+  .cursor-ring { display: block; }
+}
+
+.cursor-dot {
+  position: fixed;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  display: none;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: -18px;
+  left: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201, 168, 76, 0.45);
+  pointer-events: none;
+  z-index: 9998;
+  will-change: transform;
+  transition: width 200ms ease, height 200ms ease, top 200ms ease, left 200ms ease, border-color 200ms ease;
+  display: none;
+}
+
+.cursor-ring.hovered {
+  top: -26px;
+  left: -26px;
+  width: 52px;
+  height: 52px;
+  border-color: rgba(201, 168, 76, 0.85);
+}
+
+/* ===== SCROLL PROGRESS ===== */
+
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+  z-index: 100;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.6);
+  transition: width 80ms linear;
+}
+
+/* ===== ACTIVE NAV LINK ===== */
+
+.nav-links a.active {
+  color: var(--gold);
+}
+
+/* ===== CARD TILT ===== */
+
+.product-card-new.tilting,
+.service-card.tilting {
+  transition: border-color 200ms;
+}
+
 /* ===== REVEAL ANIMATIONS ===== */
 
 .reveal {
