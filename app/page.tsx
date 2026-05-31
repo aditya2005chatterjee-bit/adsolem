@@ -74,6 +74,33 @@ const products = [
   },
 ];
 
+const services = [
+  {
+    num: "01",
+    name: "AI Audit",
+    engagement: "One-time",
+    body: "I look at your operation and deliver a written roadmap of exactly where and how AI should be implemented. No vague suggestions — a precise, prioritised plan you can act on immediately.",
+    cta: "Get Your Audit",
+    featured: false,
+  },
+  {
+    num: "02",
+    name: "AI Build",
+    engagement: "One-time",
+    body: "I build the system for you. Fixed scope, fixed price, two weeks, you own everything. No ongoing dependency, no surprises — just a working intelligent system with full documentation.",
+    cta: "Start a Build",
+    featured: true,
+  },
+  {
+    num: "03",
+    name: "AI Retainer",
+    engagement: "Monthly",
+    body: "I stay in your corner. Maintain, expand, and keep your systems current as AI moves fast. One point of contact who knows your business inside out.",
+    cta: "Join the Retainer",
+    featured: false,
+  },
+];
+
 const whyPoints = [
   {
     label: "Intelligence",
@@ -141,6 +168,7 @@ function Navbar() {
           <a href="#about">About</a>
           <a href="#approach">Approach</a>
           <a href="#products">Products</a>
+          <a href="#services">Services</a>
           <a href="#contact">Contact</a>
         </div>
         <a href="#contact" className="pill-button light">
@@ -301,6 +329,44 @@ function Products() {
   );
 }
 
+function Services() {
+  return (
+    <section id="services" className="section section-grid">
+      <div className="section-heading reveal">
+        <p className="eyebrow">Services</p>
+        <h2>Work directly with Aditya.</h2>
+      </div>
+      <p className="services-intro reveal reveal-d1">
+        I take on a small number of clients at a time. Every engagement is hands-on — you work with me directly, not a team of contractors.
+      </p>
+      <div className="services-grid">
+        {services.map((service, i) => (
+          <article
+            className={`service-card reveal reveal-d${i + 1}${service.featured ? " featured" : ""}`}
+            key={service.name}
+          >
+            {service.featured && (
+              <span className="service-recommended-badge">Recommended</span>
+            )}
+            <div className="service-card-top">
+              <span className="service-num">{service.num}</span>
+              <span className="service-engagement-badge">{service.engagement}</span>
+            </div>
+            <h3>{service.name}</h3>
+            <p>{service.body}</p>
+            <a
+              href="#contact"
+              className={`service-cta ${service.featured ? "glow-button" : "pill-button"}`}
+            >
+              {service.cta} <ArrowIcon />
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function WhyAdSolem() {
   return (
     <section className="section section-grid">
@@ -390,7 +456,7 @@ function Calculator() {
 }
 
 function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", vertical: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", company: "", service: "", message: "" });
   const [status, setStatus] = useState<ContactState>("idle");
   const [error, setError] = useState("");
 
@@ -407,7 +473,7 @@ function Contact() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Unable to send your message.");
       setStatus("success");
-      setForm({ name: "", email: "", company: "", vertical: "", message: "" });
+      setForm({ name: "", email: "", company: "", service: "", message: "" });
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unable to send your message.");
@@ -466,16 +532,17 @@ function Contact() {
               />
             </label>
             <label>
-              Vertical Interest
+              Which service are you interested in?
               <select
-                name="vertical"
-                value={form.vertical}
-                onChange={(e) => setForm((p) => ({ ...p, vertical: e.target.value }))}
+                name="service"
+                value={form.service}
+                onChange={(e) => setForm((p) => ({ ...p, service: e.target.value }))}
               >
-                <option value="">Select a vertical</option>
-                <option value="Travel">Travel</option>
-                <option value="Education">Education</option>
-                <option value="Fitness and Wellness">Fitness &amp; Wellness</option>
+                <option value="">Select a service</option>
+                <option value="AI Audit">AI Audit</option>
+                <option value="AI Build">AI Build</option>
+                <option value="AI Retainer">AI Retainer</option>
+                <option value="Just Exploring">Just Exploring</option>
               </select>
             </label>
           </div>
@@ -520,6 +587,7 @@ function Footer() {
             <a href="#approach">Approach</a>
             <a href="#process">Process</a>
             <a href="#products">Products</a>
+            <a href="#services">Services</a>
             <a href="#contact">Contact</a>
           </nav>
           <p>Copyright &copy; {new Date().getFullYear()} AdSolem. All rights reserved.</p>
@@ -551,6 +619,7 @@ export default function Home() {
       <Approach />
       <HowWeWork />
       <Products />
+      <Services />
       <WhyAdSolem />
       <Calculator />
       <Contact />
