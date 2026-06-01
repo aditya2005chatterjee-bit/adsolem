@@ -74,6 +74,16 @@ const products = [
   },
 ];
 
+const includedItems = [
+  { label: "Automation & Workflows", items: ["Repetitive task automation", "Document processing pipelines", "Email & communication automation"] },
+  { label: "Intelligence Systems", items: ["Competitive intelligence monitoring", "Industry news tracking & summaries", "Custom AI assistant with memory"] },
+  { label: "Agent Infrastructure", items: ["QA & quality control agents"] },
+  { label: "Customer Facing", items: ["AI chatbot for website or WhatsApp", "Automated follow-up sequences"] },
+  { label: "Data & Reporting", items: ["Automated business reports", "Sales & performance trend analysis"] },
+  { label: "Content & Communication", items: ["AI email & proposal drafting in your voice", "Meeting notes & action item extraction"] },
+  { label: "Operations", items: ["Customer feedback analysis", "Inventory & project status monitoring"] },
+];
+
 const services = [
   {
     num: "01",
@@ -409,6 +419,8 @@ function Products() {
 }
 
 function Services() {
+  const [open, setOpen] = useState(false);
+
   return (
     <section id="services" className="section section-grid">
       <div className="section-heading reveal">
@@ -443,6 +455,33 @@ function Services() {
             </a>
           </article>
         ))}
+      </div>
+
+      <div className="included-toggle-row reveal">
+        <button
+          className="included-toggle-btn"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+        >
+          {open ? "Hide ↑" : "See what's included ↓"}
+        </button>
+      </div>
+
+      <div className={`included-panel${open ? " open" : ""}`} aria-hidden={!open}>
+        <div className="included-panel-inner">
+          <div className="included-grid">
+            {includedItems.map((cat) => (
+              <div className="included-category" key={cat.label}>
+                <h4>{cat.label}</h4>
+                <ul>
+                  {cat.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

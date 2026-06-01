@@ -988,6 +988,108 @@ main {
   margin-top: auto;
 }
 
+/* ===== INCLUDED PANEL ===== */
+
+.included-toggle-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.included-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  padding: 10px 22px;
+  color: rgba(248, 247, 244, 0.62);
+  background: rgba(255, 255, 255, 0.045);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.included-toggle-btn:hover {
+  border-color: rgba(201, 168, 76, 0.42);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.included-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 440ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.included-panel.open {
+  grid-template-rows: 1fr;
+}
+
+.included-panel-inner {
+  overflow: hidden;
+  padding-top: 20px;
+}
+
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+}
+
+.included-category {
+  padding: 28px 28px;
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.included-category:nth-child(3n) {
+  border-right: none;
+}
+
+.included-category:nth-last-child(-n+3):nth-child(3n+1),
+.included-category:nth-last-child(-n+2):nth-child(3n+2),
+.included-category:last-child {
+  border-bottom: none;
+}
+
+.included-category h4 {
+  color: var(--gold);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.included-category ul {
+  list-style: none;
+  display: grid;
+  gap: 9px;
+}
+
+.included-category li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.included-category li::before {
+  content: "—";
+  color: var(--faint);
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  margin-top: 1px;
+}
+
 /* ===== WHY ADSOLEM ===== */
 
 .why-grid {
@@ -1633,6 +1735,18 @@ main {
     grid-template-columns: 1fr;
   }
 
+  .included-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .included-category:nth-child(3n) {
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .included-category:nth-child(2n) {
+    border-right: none;
+  }
+
   .calculator-controls {
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -1734,6 +1848,18 @@ main {
   }
 
   .why-item:last-child {
+    border-bottom: none;
+  }
+
+  .included-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .included-category {
+    border-right: none !important;
+  }
+
+  .included-category:last-child {
     border-bottom: none;
   }
 
