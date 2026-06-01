@@ -79,7 +79,7 @@ const services = [
     num: "01",
     name: "AI Audit",
     engagement: "One-time",
-    body: "I look at your operation and deliver a written roadmap of exactly where and how AI should be implemented. No vague suggestions — a precise, prioritised plan you can act on immediately.",
+    body: "I map your entire operation, identify where AI can save you time and money, and deliver a prioritised implementation roadmap. You'll know exactly what to build, in what order, and why — no guesswork.",
     cta: "Get Your Audit",
     featured: false,
   },
@@ -87,7 +87,7 @@ const services = [
     num: "02",
     name: "AI Build",
     engagement: "One-time",
-    body: "I build the system for you. Fixed scope, fixed price, two weeks, you own everything. No ongoing dependency, no surprises — just a working intelligent system with full documentation.",
+    body: "I build you a custom AI operating system for your business. This includes a tailored AI assistant that knows your context, automated workflows for your repetitive tasks, memory systems that get smarter over time, and agents that run on autopilot. Fixed scope, two weeks, you own everything.",
     cta: "Start a Build",
     featured: true,
   },
@@ -95,7 +95,7 @@ const services = [
     num: "03",
     name: "AI Retainer",
     engagement: "Monthly",
-    body: "I stay in your corner. Maintain, expand, and keep your systems current as AI moves fast. One point of contact who knows your business inside out.",
+    body: "I stay in your corner as AI evolves. Monthly check-ins, system updates, new automations as your business grows, and a direct line to me whenever something needs fixing or improving.",
     cta: "Join the Retainer",
     featured: false,
   },
@@ -416,7 +416,7 @@ function Services() {
         <h2>Work directly with Aditya.</h2>
       </div>
       <p className="services-intro reveal reveal-d1">
-        I take on a small number of clients at a time. Every engagement is hands-on — you work with me directly, not a team of contractors.
+        I build custom AI infrastructure for businesses that can&apos;t afford to fall behind. Not generic tools. Not vague advice. A system built around how you specifically operate.
       </p>
       <div className="services-grid">
         {services.map((service, i) => (
