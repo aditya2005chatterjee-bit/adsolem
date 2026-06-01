@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Zap, FileText, Mail, Eye, Newspaper, Brain, ShieldCheck, MessageCircle, Bell, BarChart2, TrendingUp, PenLine, ClipboardList, MessageSquare, Package } from "lucide-react";
 
 type ContactState = "idle" | "loading" | "success" | "error";
 
@@ -74,14 +75,22 @@ const products = [
   },
 ];
 
-const includedItems = [
-  { label: "Automation & Workflows", items: ["Repetitive task automation", "Document processing pipelines", "Email & communication automation"] },
-  { label: "Intelligence Systems", items: ["Competitive intelligence monitoring", "Industry news tracking & summaries", "Custom AI assistant with memory"] },
-  { label: "Agent Infrastructure", items: ["QA & quality control agents"] },
-  { label: "Customer Facing", items: ["AI chatbot for website or WhatsApp", "Automated follow-up sequences"] },
-  { label: "Data & Reporting", items: ["Automated business reports", "Sales & performance trend analysis"] },
-  { label: "Content & Communication", items: ["AI email & proposal drafting in your voice", "Meeting notes & action item extraction"] },
-  { label: "Operations", items: ["Customer feedback analysis", "Inventory & project status monitoring"] },
+const includedCards = [
+  { Icon: Zap,            name: "Repetitive task automation",              desc: "Eliminate the manual work that eats your team's time every day." },
+  { Icon: FileText,       name: "Document processing pipelines",           desc: "Extract, summarise, and route information from any document automatically." },
+  { Icon: Mail,           name: "Email & communication automation",         desc: "Draft, send, and follow up without lifting a finger." },
+  { Icon: Eye,            name: "Competitive intelligence monitoring",      desc: "Know what your competitors are doing before it affects you." },
+  { Icon: Newspaper,      name: "Industry news tracking & summaries",       desc: "Stay current without spending hours reading." },
+  { Icon: Brain,          name: "Custom AI assistant with memory",          desc: "An AI that knows your business, your clients, and your context." },
+  { Icon: ShieldCheck,    name: "QA & quality control agents",              desc: "Automated checks that catch errors before they reach your clients." },
+  { Icon: MessageCircle,  name: "AI chatbot for website or WhatsApp",       desc: "Answer customer questions 24/7 without hiring anyone." },
+  { Icon: Bell,           name: "Automated follow-up sequences",            desc: "Never let a lead go cold because you forgot to reply." },
+  { Icon: BarChart2,      name: "Automated business reports",               desc: "Weekly and monthly summaries generated and delivered automatically." },
+  { Icon: TrendingUp,     name: "Sales & performance trend analysis",       desc: "Spot what's working and what isn't before it's too late." },
+  { Icon: PenLine,        name: "AI email & proposal drafting in your voice", desc: "Communicate at volume without losing your personal tone." },
+  { Icon: ClipboardList,  name: "Meeting notes & action item extraction",   desc: "Turn every call into a clear list of next steps automatically." },
+  { Icon: MessageSquare,  name: "Customer feedback analysis",               desc: "Understand what your customers are really saying at scale." },
+  { Icon: Package,        name: "Inventory & project status monitoring",    desc: "Always know where things stand without chasing updates." },
 ];
 
 const services = [
@@ -469,15 +478,13 @@ function Services() {
 
       <div className={`included-panel${open ? " open" : ""}`} aria-hidden={!open}>
         <div className="included-panel-inner">
-          <div className="included-grid">
-            {includedItems.map((cat) => (
-              <div className="included-category" key={cat.label}>
-                <h4>{cat.label}</h4>
-                <ul>
-                  {cat.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+          <div className="included-cards-grid">
+            {includedCards.map(({ Icon, name, desc }) => (
+              <div className="included-card" key={name}>
+                <Icon className="included-card-icon" size={20} strokeWidth={1.6} aria-hidden="true" />
+                <h4>{name}</h4>
+                <p>{desc}</p>
+                <span className="included-card-arrow" aria-hidden="true">→</span>
               </div>
             ))}
           </div>
