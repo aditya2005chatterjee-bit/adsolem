@@ -295,6 +295,16 @@ function Hero() {
         <div className="hero-glow" />
       </div>
 
+      <div className="ticker-strip" aria-hidden="true">
+        <div className="ticker-track">
+          {[...Array(2)].flatMap((_, set) =>
+            ["Travel", "Education", "Fitness & Wellness", "AI Automation", "Intelligent Systems", "Operational Excellence"].map((item, i) => (
+              <span key={`${set}-${i}`} className="ticker-item">{item}</span>
+            ))
+          )}
+        </div>
+      </div>
+
       <div className="hero-statement section-grid">
         <p className="reveal reveal-d2">
           We build intelligent systems for travel, education, and fitness businesses — so they can operate smarter, compete harder, and grow faster.
@@ -332,6 +342,20 @@ function About() {
           <p>
             When I&apos;m not building, I&apos;m training, reading, or thinking about the next problem worth solving.
           </p>
+        </div>
+        <div className="about-stats">
+          <div className="about-stat">
+            <span className="about-stat-num">3</span>
+            <span className="about-stat-label">Verticals</span>
+          </div>
+          <div className="about-stat">
+            <span className="about-stat-num">1</span>
+            <span className="about-stat-label">Live Product</span>
+          </div>
+          <div className="about-stat">
+            <span className="about-stat-num">AI</span>
+            <span className="about-stat-label">Native</span>
+          </div>
         </div>
       </div>
     </section>
