@@ -63,7 +63,6 @@ const services = [
       "Press and news mention monitoring",
       "Synthesized into one clean brief every Monday",
       "Delivered directly to your inbox",
-      "Setup within 5 business days",
     ],
   },
   {
@@ -82,7 +81,6 @@ const services = [
       "Flags what's working and what needs attention",
       "No dashboards to log into, no connectors to debug",
       "Delivered every Monday before your week starts",
-      "Setup within 5 business days",
     ],
   },
   {
@@ -99,7 +97,6 @@ const services = [
       "One unified weekly brief covering external and internal intelligence",
       "Priority setup and onboarding",
       "Direct line to Aditya for questions and adjustments",
-      "Setup within 3 business days",
     ],
   },
 ];
@@ -397,10 +394,6 @@ function HowWeWork() {
 
 
 function Services() {
-  const [openCards, setOpenCards] = useState<boolean[]>([false, false, false]);
-  const toggle = (i: number) =>
-    setOpenCards((prev) => prev.map((v, j) => (j === i ? !v : v)));
-
   return (
     <section id="services" className="section section-grid">
       <div className="section-heading reveal">
@@ -433,17 +426,7 @@ function Services() {
             >
               {service.cta} <ArrowIcon />
             </a>
-            <button
-              className="service-included-toggle"
-              onClick={() => toggle(i)}
-              aria-expanded={openCards[i]}
-            >
-              {openCards[i] ? "Hide ↑" : "See what's included ↓"}
-            </button>
-            <div
-              className={`service-included-panel${openCards[i] ? " open" : ""}`}
-              aria-hidden={!openCards[i]}
-            >
+            <div className="service-included-panel">
               <div className="service-included-inner">
                 <ul className="service-included-list">
                   {service.included.map((item) => (

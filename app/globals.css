@@ -1113,33 +1113,13 @@ main {
 
 /* ===== INCLUDED PANEL ===== */
 
-.service-included-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 18px;
-  border: none;
-  padding: 0;
-  background: none;
-  color: var(--faint);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: color 180ms ease;
-}
-
-.service-included-toggle:hover {
-  color: var(--gold);
-}
-
 .service-included-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 380ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: grid-template-rows 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.service-included-panel.open {
+.service-card:hover .service-included-panel {
   grid-template-rows: 1fr;
 }
 
