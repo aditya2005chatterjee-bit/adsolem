@@ -46,34 +46,6 @@ const processSteps = [
   },
 ];
 
-const products = [
-  {
-    num: "01",
-    name: "Clio",
-    tag: "Travel",
-    tagline: "Your journey, guided by Clio.",
-    status: "Live",
-    isLive: true,
-    link: "https://clio-adsolem.vercel.app",
-    body: "An AI travel companion that knows your full itinerary, gives you a morning briefing before your day starts, and answers anything about your trip in real time. Like a brilliant local friend in your pocket for every journey.",
-  },
-  {
-    num: "02",
-    name: "EduFlow",
-    tag: "Education",
-    status: "Coming Soon",
-    isLive: false,
-    body: "Intelligent system for coaching institutes and tutoring centres. Automates student progress reports, personalised study planning, and parent communication.",
-  },
-  {
-    num: "03",
-    name: "PulseAI",
-    tag: "Fitness",
-    status: "Coming Soon",
-    isLive: false,
-    body: "AI system for gyms and personal trainers. Automated client programming, check-ins, nutrition guidance, and progress tracking — so every client feels guided.",
-  },
-];
 
 const includedCards = [
   { Icon: Zap,            name: "Repetitive task automation",              desc: "Eliminate the manual work that eats your team's time every day." },
@@ -96,27 +68,30 @@ const includedCards = [
 const services = [
   {
     num: "01",
-    name: "AI Audit",
-    engagement: "One-time",
-    body: "I map your entire operation, identify where AI can save you time and money, and deliver a prioritised implementation roadmap. You'll know exactly what to build, in what order, and why — no guesswork.",
-    cta: "Get Your Audit",
-    featured: false,
+    name: "Competitor Radar",
+    engagement: "$350 / mo",
+    body: "A fully automated intelligence brief delivered to your inbox every Monday. We monitor your competitors' websites, pricing, product launches, social activity, and press mentions — then synthesize it into a clean, scannable report. You stop manually checking five websites every week and start getting the full picture in five minutes. Built for ecommerce store owners and small business owners who are tired of finding out about competitor moves after they've already happened.",
+    cta: "Get Competitor Radar",
+    featured: true,
+    tag: "Most Popular",
   },
   {
     num: "02",
-    name: "AI Build",
-    engagement: "One-time",
-    body: "I build you a custom AI operating system for your business. This includes a tailored AI assistant that knows your context, automated workflows for your repetitive tasks, memory systems that get smarter over time, and agents that run on autopilot. Fixed scope, two weeks, you own everything.",
-    cta: "Start a Build",
-    featured: true,
+    name: "Business Pulse",
+    engagement: "$350 / mo",
+    body: "Automated weekly performance reports pulled from all your tools — Google Ads, Meta, GA4, your CRM, your spreadsheets — synthesized into one clean summary with the actual insights surfaced, not just the numbers. No more Monday mornings stitching together dashboards that don't talk to each other. No more screen shares walking clients through data they don't trust. Just a clear, accurate report that's ready before the week starts. Built for small agency owners and consultants spending 4–8 hours every week on reporting that should take 20 minutes.",
+    cta: "Get Business Pulse",
+    featured: false,
+    tag: "Best for Agencies",
   },
   {
     num: "03",
-    name: "AI Retainer",
-    engagement: "Monthly",
-    body: "I stay in your corner as AI evolves. Monthly check-ins, system updates, new automations as your business grows, and a direct line to me whenever something needs fixing or improving.",
-    cta: "Join the Retainer",
+    name: "Intelligence Stack",
+    engagement: "$600 / mo",
+    body: "Both services combined. Competitor Radar monitors everything happening outside your business. Business Pulse monitors everything happening inside it. Together they give you a complete operating picture every single week — market intelligence and performance intelligence in one system, one inbox, one Monday morning read. Built for operators who want the full picture without hiring an analyst.",
+    cta: "Get the Full Stack",
     featured: false,
+    tag: "Most Comprehensive",
   },
 ];
 
@@ -241,7 +216,7 @@ function Navbar() {
   const [active, setActive] = useState("");
 
   useEffect(() => {
-    const ids = ["home", "about", "approach", "process", "products", "services", "calculator", "contact"];
+    const ids = ["home", "about", "approach", "process", "services", "calculator", "contact"];
     const onScroll = () => {
       const mid = window.innerHeight * 0.4;
       let current = "";
@@ -265,7 +240,6 @@ function Navbar() {
         <div className="nav-links">
           <a href="#about" className={is("about")}>About</a>
           <a href="#approach" className={is("approach", "process")}>Approach</a>
-          <a href="#products" className={is("products")}>Products</a>
           <a href="#services" className={is("services")}>Services</a>
           <a href="#contact" className={is("calculator", "contact")}>Contact</a>
         </div>
@@ -295,22 +269,15 @@ function Hero() {
         <div className="hero-glow" />
       </div>
 
-      <div className="ticker-strip" aria-hidden="true">
-        <div className="ticker-track">
-          {[...Array(2)].flatMap((_, set) =>
-            ["Travel", "Education", "Fitness & Wellness", "AI Automation", "Intelligent Systems", "Operational Excellence"].map((item, i) => (
-              <span key={`${set}-${i}`} className="ticker-item">{item}</span>
-            ))
-          )}
-        </div>
-      </div>
-
       <div className="hero-statement section-grid">
         <p className="reveal reveal-d2">
-          We build intelligent systems for travel, education, and fitness businesses — so they can operate smarter, compete harder, and grow faster.
+          Your competitors are moving. Your reports are piling up. We automate both.
         </p>
-        <a href="#approach" className="pill-button reveal reveal-d3">
-          Explore Our Approach
+        <p className="hero-sub reveal reveal-d3">
+          AdSolem builds intelligent monitoring and reporting systems for small businesses and agencies — so you always know what&apos;s happening outside your business and inside it.
+        </p>
+        <a href="#services" className="pill-button reveal reveal-d4">
+          Explore Our Services
         </a>
       </div>
     </section>
@@ -419,37 +386,6 @@ function HowWeWork() {
   );
 }
 
-function Products() {
-  return (
-    <section id="products" className="section section-grid">
-      <div className="section-heading reveal">
-        <p className="eyebrow">Products</p>
-        <h2>Purpose-built AI tools for the markets we know best.</h2>
-      </div>
-      <div className="products-grid-new">
-        {products.map((product, i) => (
-          <article className={`product-card-new reveal reveal-d${i + 1}`} key={product.name} onMouseMove={onCardTilt} onMouseLeave={onCardUntilt}>
-            <div className="product-card-top">
-              <span className="product-num-large">{product.num}</span>
-              <span className="product-tag-badge">{product.tag}</span>
-              <span className={`product-status-badge${product.isLive ? " live" : ""}`}>
-                {product.status}
-              </span>
-            </div>
-            <h3>{product.name}</h3>
-            {product.tagline && <p className="product-tagline">{product.tagline}</p>}
-            <p>{product.body}</p>
-            {product.isLive && (
-              <a href={product.link ?? "#contact"} className="product-card-link" target={product.link ? "_blank" : undefined} rel={product.link ? "noopener noreferrer" : undefined}>
-                Learn More <ArrowIcon />
-              </a>
-            )}
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 function Services() {
   const [open, setOpen] = useState(false);
@@ -461,7 +397,7 @@ function Services() {
         <h2>Work directly with Aditya.</h2>
       </div>
       <p className="services-intro reveal reveal-d1">
-        I build custom AI infrastructure for businesses that can&apos;t afford to fall behind. Not generic tools. Not vague advice. A system built around how you specifically operate.
+        We build two things: systems that watch your market so you never miss a competitor move, and systems that replace your manual reporting so Monday mornings stop being a grind. Done for you, running automatically, delivered to your inbox.
       </p>
       <div className="services-grid">
         {services.map((service, i) => (
@@ -471,8 +407,8 @@ function Services() {
             onMouseMove={onCardTilt}
             onMouseLeave={onCardUntilt}
           >
-            {service.featured && (
-              <span className="service-recommended-badge">Recommended</span>
+            {service.tag && (
+              <span className="service-recommended-badge">{service.tag}</span>
             )}
             <div className="service-card-top">
               <span className="service-num">{service.num}</span>
@@ -760,7 +696,6 @@ function Footer() {
           <nav aria-label="Footer navigation">
             <a href="#approach">Approach</a>
             <a href="#process">Process</a>
-            <a href="#products">Products</a>
             <a href="#services">Services</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -793,7 +728,6 @@ export default function Home() {
       <About />
       <Approach />
       <HowWeWork />
-      <Products />
       <Services />
       <WhyAdSolem />
       <Calculator />

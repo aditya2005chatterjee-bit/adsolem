@@ -349,47 +349,6 @@ main {
   filter: blur(2.5px);
 }
 
-/* ===== TICKER STRIP ===== */
-
-.ticker-strip {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.055);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
-  padding: 11px 0;
-  background: rgba(255, 255, 255, 0.014);
-}
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  white-space: nowrap;
-  animation: ticker 32s linear infinite;
-  will-change: transform;
-}
-
-.ticker-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 20px;
-  padding: 0 28px;
-  color: rgba(248, 247, 244, 0.26);
-  font-size: 0.63rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.ticker-item::after {
-  content: "·";
-  color: var(--gold);
-  opacity: 0.45;
-  font-size: 0.9rem;
-  line-height: 1;
-}
-
 /* ===== HERO STATEMENT ===== */
 
 .hero-statement {
@@ -410,6 +369,14 @@ main {
   font-size: clamp(1.1rem, 2.4vw, 1.65rem);
   line-height: 1.52;
   text-wrap: balance;
+}
+
+.hero-sub {
+  max-width: 640px;
+  color: var(--muted) !important;
+  font-size: clamp(0.96rem, 1.8vw, 1.22rem) !important;
+  line-height: 1.62 !important;
+  margin-top: -8px;
 }
 
 /* ===== ABOUT ===== */
@@ -1842,17 +1809,9 @@ main {
   }
 }
 
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
 /* ===== REDUCED MOTION ===== */
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track {
-    animation-play-state: paused;
-  }
   .hero-glow,
   .contact-glow,
   .venn-glow {
@@ -2073,8 +2032,4 @@ main {
     padding: 0;
   }
 
-  .ticker-item {
-    padding: 0 20px;
-    font-size: 0.6rem;
-  }
 }

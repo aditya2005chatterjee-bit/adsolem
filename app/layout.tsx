@@ -17,9 +17,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AdSolem — AI Automation Agency",
+  title: "AdSolem — Competitor Intelligence and Automated Reporting for Small Businesses",
   description:
-    "From workflow automation to full AI integration — infrastructure that keeps your business running 24/7.",
+    "AdSolem builds automated competitor monitoring and business reporting systems for small businesses and agencies. Know what your competitors are doing and how your business is performing — without the manual work.",
 };
 
 export default function RootLayout({
