@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Zap, FileText, Mail, Eye, Newspaper, Brain, ShieldCheck, MessageCircle, Bell, BarChart2, TrendingUp, PenLine, ClipboardList, MessageSquare, Package } from "lucide-react";
 
 type ContactState = "idle" | "loading" | "success" | "error";
 
@@ -47,51 +46,61 @@ const processSteps = [
 ];
 
 
-const includedCards = [
-  { Icon: Zap,            name: "Repetitive task automation",              desc: "Eliminate the manual work that eats your team's time every day." },
-  { Icon: FileText,       name: "Document processing pipelines",           desc: "Extract, summarise, and route information from any document automatically." },
-  { Icon: Mail,           name: "Email & communication automation",         desc: "Draft, send, and follow up without lifting a finger." },
-  { Icon: Eye,            name: "Competitive intelligence monitoring",      desc: "Know what your competitors are doing before it affects you." },
-  { Icon: Newspaper,      name: "Industry news tracking & summaries",       desc: "Stay current without spending hours reading." },
-  { Icon: Brain,          name: "Custom AI assistant with memory",          desc: "An AI that knows your business, your clients, and your context." },
-  { Icon: ShieldCheck,    name: "QA & quality control agents",              desc: "Automated checks that catch errors before they reach your clients." },
-  { Icon: MessageCircle,  name: "AI chatbot for website or WhatsApp",       desc: "Answer customer questions 24/7 without hiring anyone." },
-  { Icon: Bell,           name: "Automated follow-up sequences",            desc: "Never let a lead go cold because you forgot to reply." },
-  { Icon: BarChart2,      name: "Automated business reports",               desc: "Weekly and monthly summaries generated and delivered automatically." },
-  { Icon: TrendingUp,     name: "Sales & performance trend analysis",       desc: "Spot what's working and what isn't before it's too late." },
-  { Icon: PenLine,        name: "AI email & proposal drafting in your voice", desc: "Communicate at volume without losing your personal tone." },
-  { Icon: ClipboardList,  name: "Meeting notes & action item extraction",   desc: "Turn every call into a clear list of next steps automatically." },
-  { Icon: MessageSquare,  name: "Customer feedback analysis",               desc: "Understand what your customers are really saying at scale." },
-  { Icon: Package,        name: "Inventory & project status monitoring",    desc: "Always know where things stand without chasing updates." },
-];
-
 const services = [
   {
     num: "01",
     name: "Competitor Radar",
-    engagement: "$350 / mo",
-    body: "A fully automated intelligence brief delivered to your inbox every Monday. We monitor your competitors' websites, pricing, product launches, social activity, and press mentions — then synthesize it into a clean, scannable report. You stop manually checking five websites every week and start getting the full picture in five minutes. Built for ecommerce store owners and small business owners who are tired of finding out about competitor moves after they've already happened.",
+    engagement: "$450 / mo",
+    body: "A fully automated intelligence brief delivered to your inbox every Monday. We monitor competitor websites, pricing, product launches, social activity, and press mentions — synthesized into one clean, scannable report. Never miss a competitor move again.",
     cta: "Get Competitor Radar",
     featured: true,
     tag: "Most Popular",
+    included: [
+      "Weekly monitoring of up to 5 competitor websites",
+      "Pricing and product change detection",
+      "New launch and announcement tracking",
+      "Social media activity summary",
+      "Press and news mention monitoring",
+      "Synthesized into one clean brief every Monday",
+      "Delivered directly to your inbox",
+      "Setup within 5 business days",
+    ],
   },
   {
     num: "02",
     name: "Business Pulse",
-    engagement: "$350 / mo",
-    body: "Automated weekly performance reports pulled from all your tools — Google Ads, Meta, GA4, your CRM, your spreadsheets — synthesized into one clean summary with the actual insights surfaced, not just the numbers. No more Monday mornings stitching together dashboards that don't talk to each other. No more screen shares walking clients through data they don't trust. Just a clear, accurate report that's ready before the week starts. Built for small agency owners and consultants spending 4–8 hours every week on reporting that should take 20 minutes.",
+    engagement: "$450 / mo",
+    body: "Automated weekly performance reports pulled from all your tools and delivered before the week starts. No more stitching dashboards together. No more Monday morning reporting marathons. Just the insights, ready when you are.",
     cta: "Get Business Pulse",
     featured: false,
     tag: "Best for Agencies",
+    included: [
+      "Connects to your existing tools — Google Ads, Meta, GA4, CRM, spreadsheets",
+      "Weekly performance summary with insights surfaced automatically",
+      "Revenue and spend trend analysis",
+      "Client-ready report format",
+      "Flags what's working and what needs attention",
+      "No dashboards to log into, no connectors to debug",
+      "Delivered every Monday before your week starts",
+      "Setup within 5 business days",
+    ],
   },
   {
     num: "03",
     name: "Intelligence Stack",
-    engagement: "$600 / mo",
-    body: "Both services combined. Competitor Radar monitors everything happening outside your business. Business Pulse monitors everything happening inside it. Together they give you a complete operating picture every single week — market intelligence and performance intelligence in one system, one inbox, one Monday morning read. Built for operators who want the full picture without hiring an analyst.",
+    engagement: "$750 / mo",
+    body: "Competitor Radar and Business Pulse combined. Full visibility into what's happening outside your business and inside it — one system, one inbox, one Monday morning read.",
     cta: "Get the Full Stack",
     featured: false,
     tag: "Most Comprehensive",
+    included: [
+      "Everything in Competitor Radar",
+      "Everything in Business Pulse",
+      "One unified weekly brief covering external and internal intelligence",
+      "Priority setup and onboarding",
+      "Direct line to Aditya for questions and adjustments",
+      "Setup within 3 business days",
+    ],
   },
 ];
 
@@ -274,7 +283,7 @@ function Hero() {
           Your competitors are moving. Your reports are piling up. We automate both.
         </p>
         <p className="hero-sub reveal reveal-d3">
-          AdSolem builds intelligent monitoring and reporting systems for small businesses and agencies — so you always know what&apos;s happening outside your business and inside it.
+          AdSolem builds intelligent monitoring and reporting systems for businesses and agencies — so you always know what&apos;s happening outside your business and inside it.
         </p>
         <a href="#services" className="pill-button reveal reveal-d4">
           Explore Our Services
@@ -388,7 +397,9 @@ function HowWeWork() {
 
 
 function Services() {
-  const [open, setOpen] = useState(false);
+  const [openCards, setOpenCards] = useState<boolean[]>([false, false, false]);
+  const toggle = (i: number) =>
+    setOpenCards((prev) => prev.map((v, j) => (j === i ? !v : v)));
 
   return (
     <section id="services" className="section section-grid">
@@ -422,33 +433,27 @@ function Services() {
             >
               {service.cta} <ArrowIcon />
             </a>
+            <button
+              className="service-included-toggle"
+              onClick={() => toggle(i)}
+              aria-expanded={openCards[i]}
+            >
+              {openCards[i] ? "Hide ↑" : "See what's included ↓"}
+            </button>
+            <div
+              className={`service-included-panel${openCards[i] ? " open" : ""}`}
+              aria-hidden={!openCards[i]}
+            >
+              <div className="service-included-inner">
+                <ul className="service-included-list">
+                  {service.included.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </article>
         ))}
-      </div>
-
-      <div className="included-toggle-row reveal">
-        <button
-          className="included-toggle-btn"
-          onClick={() => setOpen((o) => !o)}
-          aria-expanded={open}
-        >
-          {open ? "Hide ↑" : "See what's included ↓"}
-        </button>
-      </div>
-
-      <div className={`included-panel${open ? " open" : ""}`} aria-hidden={!open}>
-        <div className="included-panel-inner">
-          <div className="included-cards-grid">
-            {includedCards.map(({ Icon, name, desc }) => (
-              <div className="included-card" key={name}>
-                <Icon className="included-card-icon" size={20} strokeWidth={1.6} aria-hidden="true" />
-                <h4>{name}</h4>
-                <p>{desc}</p>
-                <span className="included-card-arrow" aria-hidden="true">→</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

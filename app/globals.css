@@ -1113,120 +1113,65 @@ main {
 
 /* ===== INCLUDED PANEL ===== */
 
-.included-toggle-row {
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
-}
-
-.included-toggle-btn {
+.service-included-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 999px;
-  padding: 10px 22px;
-  color: rgba(248, 247, 244, 0.62);
-  background: rgba(255, 255, 255, 0.045);
-  font-size: 0.78rem;
+  gap: 6px;
+  margin-top: 18px;
+  border: none;
+  padding: 0;
+  background: none;
+  color: var(--faint);
+  font-size: 0.72rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  min-height: 44px;
-  transition: border-color 200ms ease, color 200ms ease, transform 200ms ease, background 200ms ease;
+  transition: color 180ms ease;
 }
 
-.included-toggle-btn:hover {
-  border-color: rgba(201, 168, 76, 0.42);
-  color: var(--text);
-  background: rgba(201, 168, 76, 0.055);
-  transform: translateY(-1px);
+.service-included-toggle:hover {
+  color: var(--gold);
 }
 
-.included-panel {
+.service-included-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 440ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: grid-template-rows 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.included-panel.open {
+.service-included-panel.open {
   grid-template-rows: 1fr;
 }
 
-.included-panel-inner {
+.service-included-inner {
   overflow: hidden;
-  padding-top: 20px;
 }
 
-.included-cards-grid {
+.service-included-list {
+  list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 8px;
+  padding: 16px 0 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin-top: 16px;
 }
 
-.included-card {
-  position: relative;
+.service-included-list li {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
-  padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.015) 100%);
-  overflow: hidden;
-  transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
-}
-
-.included-card::before {
-  position: absolute;
-  inset: auto -20% -40% -20%;
-  height: 100px;
-  background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.18), transparent 65%);
-  opacity: 0;
-  transition: opacity 220ms ease;
-  content: "";
-  pointer-events: none;
-}
-
-.included-card:hover {
-  border-color: rgba(201, 168, 76, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.34);
-}
-
-.included-card:hover::before {
-  opacity: 1;
-}
-
-.included-card-icon {
-  color: var(--gold);
-  flex-shrink: 0;
-}
-
-.included-card h4 {
-  color: var(--text);
-  font-size: 0.86rem;
-  font-weight: 600;
-  line-height: 1.3;
-  flex: 1;
-}
-
-.included-card p {
   color: var(--muted);
   font-size: 0.78rem;
-  line-height: 1.64;
+  line-height: 1.5;
 }
 
-.included-card-arrow {
-  display: block;
-  color: var(--faint);
-  font-size: 0.8rem;
-  margin-top: 4px;
-  transition: color 200ms ease, transform 200ms ease;
-}
-
-.included-card:hover .included-card-arrow {
+.service-included-list li::before {
+  content: "—";
   color: var(--gold);
-  transform: translateX(4px);
+  flex-shrink: 0;
+  opacity: 0.7;
+  font-size: 0.72rem;
+  margin-top: 1px;
 }
 
 /* ===== WHY ADSOLEM ===== */
@@ -1895,10 +1840,6 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .included-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .calculator-controls {
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -2003,9 +1944,6 @@ main {
     border-bottom: none;
   }
 
-  .included-cards-grid {
-    grid-template-columns: 1fr;
-  }
 
   .form-row {
     grid-template-columns: 1fr;
