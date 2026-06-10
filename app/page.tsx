@@ -170,6 +170,8 @@ function onCardTilt(e: React.MouseEvent<HTMLElement>) {
   const { left, top, width, height } = el.getBoundingClientRect();
   const x = (e.clientX - left) / width - 0.5;
   const y = (e.clientY - top) / height - 0.5;
+  el.style.setProperty("--mx", `${e.clientX - left}px`);
+  el.style.setProperty("--my", `${e.clientY - top}px`);
   el.style.transform = `perspective(700px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg) translateZ(6px)`;
 }
 
@@ -182,15 +184,15 @@ function onCardUntilt(e: React.MouseEvent<HTMLElement>) {
 function SunMark({ className = "" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 150 96" fill="none" aria-hidden="true">
-      <path d="M17 70C36 63 55 59 75 59C95 59 114 63 133 70" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M52 58C52 45.3 62.3 35 75 35C87.7 35 98 45.3 98 58" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M75 6V28" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M48 15L60 35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M102 15L90 35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M27 35L48 47" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M123 35L102 47" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M16 56H40" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      <path d="M110 56H134" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M17 70C36 63 55 59 75 59C95 59 114 63 133 70" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M52 58C52 45.3 62.3 35 75 35C87.7 35 98 45.3 98 58" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M75 6V28" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M48 15L60 35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M102 15L90 35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M27 35L48 47" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M123 35L102 47" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M16 56H40" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path pathLength={100} d="M110 56H134" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -220,10 +222,12 @@ function ArrowIcon() {
 
 function Navbar() {
   const [active, setActive] = useState("");
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const ids = ["home", "about", "approach", "process", "services", "calculator", "contact"];
     const onScroll = () => {
+      setScrolled(window.scrollY > 50);
       const mid = window.innerHeight * 0.4;
       let current = "";
       for (const id of ids) {
@@ -240,7 +244,7 @@ function Navbar() {
   const is = (...ids: string[]) => ids.includes(active) ? "active" : "";
 
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <nav className="nav-shell" aria-label="Main navigation">
         <Brand />
         <div className="nav-links">
@@ -257,10 +261,50 @@ function Navbar() {
   );
 }
 
+function WordReveal({ text, className = "" }: { text: string; className?: string }) {
+  const words = text.split(" ");
+  return (
+    <p className={className} aria-label={text}>
+      {words.map((word, i) => (
+        <span
+          aria-hidden="true"
+          className="word"
+          key={`${word}-${i}`}
+          style={{ transitionDelay: `${120 + i * 42}ms` }}
+        >
+          {word}
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </p>
+  );
+}
+
 function Hero() {
+  const glowRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (glowRef.current) glowRef.current.style.transform = `translateY(${y * 0.24}px)`;
+        if (topRef.current) topRef.current.style.opacity = `${Math.max(0, 1 - y / 640)}`;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <section id="home" className="hero">
-      <div className="hero-top section-grid reveal">
+      <div className="hero-top section-grid reveal" ref={topRef}>
         <div className="hero-brand-display">
           <SunMark className="hero-mark" />
           <h1>AdSolem</h1>
@@ -271,14 +315,15 @@ function Hero() {
         </div>
       </div>
 
-      <div className="hero-glow-zone" aria-hidden="true">
+      <div className="hero-glow-zone" aria-hidden="true" ref={glowRef}>
         <div className="hero-glow" />
       </div>
 
       <div className="hero-statement section-grid">
-        <p className="reveal reveal-d2">
-          Your competitors are moving. Your reports are piling up. We automate both.
-        </p>
+        <WordReveal
+          className="reveal"
+          text="Your competitors are moving. Your reports are piling up. We automate both."
+        />
         <p className="hero-sub reveal reveal-d3">
           AdSolem builds intelligent monitoring and reporting systems for businesses and agencies — so you always know what&apos;s happening outside your business and inside it.
         </p>
@@ -293,7 +338,7 @@ function Hero() {
 function About() {
   return (
     <section id="about" className="about-section">
-      <div className="about-image-col reveal">
+      <div className="about-image-col reveal reveal-left">
         <div className="founder-wrap">
           {/* Save your photo as public/founder.jpg */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -301,7 +346,7 @@ function About() {
           <div className="founder-blend" aria-hidden="true" />
         </div>
       </div>
-      <div className="about-text-col reveal reveal-d1">
+      <div className="about-text-col reveal reveal-right reveal-d1">
         <p className="section-label">About the Founder</p>
         <h2 className="about-name">Aditya Chatterjee</h2>
         <p className="about-meta">20 · Kolkata, India</p>
@@ -361,7 +406,7 @@ function HowWeWork() {
     <section id="process" className="venn-section">
       <div className="venn-glow" aria-hidden="true" />
       <div className="venn-inner">
-        <div className="venn-left reveal">
+        <div className="venn-left reveal reveal-left">
           <h2 className="venn-heading">How We<br />Work</h2>
           <p className="venn-subtext">
             Clear milestones, honest timelines, and systems designed for durability — not trend cycles.
@@ -370,7 +415,7 @@ function HowWeWork() {
         <div className="venn-right">
           <div className="venn-circles" aria-label="Process steps: Consult, Build, Deploy">
             {processSteps.map((step, i) => (
-              <div className={`venn-circle reveal reveal-d${i + 1}`} key={step.title}>
+              <div className={`venn-circle reveal reveal-scale reveal-d${i + 1}`} key={step.title}>
                 <div className="venn-circle-label">
                   <span className="venn-step-num">{step.num}</span>
                   <strong>{step.title}</strong>
@@ -396,7 +441,7 @@ function HowWeWork() {
 function Services() {
   return (
     <section id="services" className="section section-grid">
-      <div className="section-heading reveal">
+      <div className="section-heading reveal reveal-blur">
         <p className="eyebrow">Services</p>
         <h2>Work directly with Aditya.</h2>
       </div>
@@ -445,7 +490,7 @@ function Services() {
 function WhyAdSolem() {
   return (
     <section className="section section-grid">
-      <div className="section-heading reveal">
+      <div className="section-heading reveal reveal-blur">
         <p className="eyebrow">Why AdSolem</p>
         <h2>Why choose AdSolem?</h2>
       </div>
@@ -484,7 +529,7 @@ function Calculator() {
 
   return (
     <section id="calculator" className="section section-grid calculator-section">
-      <div className="section-heading reveal">
+      <div className="section-heading reveal reveal-blur">
         <p className="eyebrow">Calculator</p>
         <h2>Make the cost of manual work visible.</h2>
       </div>
@@ -557,7 +602,7 @@ function Contact() {
 
   return (
     <section id="contact" className="contact-section">
-      <div className="contact-heading-area section-grid reveal">
+      <div className="contact-heading-area section-grid reveal reveal-blur">
         <h2>Build with AdSolem Now.</h2>
         <div className="contact-pills">
           <a href="mailto:adsolemai@gmail.com" aria-label="Email Aditya" className="contact-pill-icon">
