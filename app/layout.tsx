@@ -17,9 +17,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AdSolem — Competitor Intelligence and Automated Reporting for Small Businesses",
+  title: "AdSolem — Keep the customers you already have",
   description:
-    "AdSolem builds automated competitor monitoring and business reporting systems for small businesses and agencies. Know what your competitors are doing and how your business is performing — without the manual work.",
+    "AdSolem handles reviews, win-backs, and follow-up for your customers — quietly, in the background. Built for restaurants, salons, gyms, clinics, and other local businesses.",
 };
 
 export default function RootLayout({
