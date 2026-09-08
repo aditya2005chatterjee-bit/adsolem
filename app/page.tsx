@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const whatWeDo = [
   {
@@ -64,6 +64,41 @@ function Brand() {
   );
 }
 
+function AmbientBackdrop() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        ref.current?.style.setProperty("--scroll", `${window.scrollY}px`);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <div className="ambient" ref={ref} aria-hidden="true">
+      <div className="orb orb-hero" />
+      <div className="orb orb-mid" />
+      <div className="orb orb-foot" />
+    </div>
+  );
+}
+
+function onCardTrack(e: React.MouseEvent<HTMLElement>) {
+  const el = e.currentTarget;
+  const { left, top } = el.getBoundingClientRect();
+  el.style.setProperty("--mx", `${e.clientX - left}px`);
+  el.style.setProperty("--my", `${e.clientY - top}px`);
+}
+
 function Navbar() {
   return (
     <header className="site-header">
@@ -80,7 +115,6 @@ function Navbar() {
 function Hero() {
   return (
     <section id="home" className="hero">
-      <div className="hero-glow" aria-hidden="true" />
       <div className="hero-inner section-grid">
         <p className="eyebrow reveal">Ad Solem · Towards the Sun</p>
         <h1 className="reveal reveal-d1">Keep the customers you already have</h1>
@@ -107,7 +141,11 @@ function WhatWeDo() {
       </div>
       <div className="what-grid">
         {whatWeDo.map((item, i) => (
-          <article className={`what-card reveal reveal-d${(i % 4) + 1}`} key={item.title}>
+          <article
+            className={`what-card reveal reveal-d${(i % 4) + 1}`}
+            key={item.title}
+            onMouseMove={onCardTrack}
+          >
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </article>
@@ -142,11 +180,8 @@ function HowItWorks() {
 function Contact() {
   return (
     <section id="contact" className="contact-section">
-      <div className="contact-glow" aria-hidden="true" />
       <div className="section-grid contact-inner reveal">
-        <h2>
-          Want a free first look at what this would catch for your business?
-        </h2>
+        <h2>Want a free first look at what this would catch for your business?</h2>
         <a href="mailto:aditya@adsolem.pro" className="glow-button">
           aditya@adsolem.pro
         </a>
@@ -182,6 +217,7 @@ export default function Home() {
 
   return (
     <main>
+      <AmbientBackdrop />
       <Navbar />
       <Hero />
       <WhatWeDo />
