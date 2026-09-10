@@ -565,6 +565,21 @@ main {
   body { cursor: url('/cursor.svg') 2 1, auto; }
 }
 
+/* ===== CURSOR TRAIL =====
+   Decorative only: never captures pointer events, so the real cursor,
+   text selection, and every link stay untouched underneath. */
+
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+@media (pointer: coarse) {
+  .cursor-trail { display: none; }
+}
+
 /* ===== REVEAL ANIMATIONS ===== */
 
 .reveal {
@@ -610,6 +625,10 @@ main {
 
   .brand-mark path {
     stroke-dashoffset: 0;
+  }
+
+  .cursor-trail {
+    display: none;
   }
 }
 

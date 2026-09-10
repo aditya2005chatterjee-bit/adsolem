@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const whatWeDo = [
   {
@@ -90,6 +90,132 @@ function AmbientBackdrop() {
       <div className="orb orb-foot" />
     </div>
   );
+}
+
+function CursorTrail() {
+  const [enabled, setEnabled] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const fine = window.matchMedia("(pointer: fine)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setEnabled(fine.matches && !reduced.matches);
+    sync();
+    fine.addEventListener("change", sync);
+    reduced.addEventListener("change", sync);
+    return () => {
+      fine.removeEventListener("change", sync);
+      reduced.removeEventListener("change", sync);
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!enabled || !canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = 0;
+    let height = 0;
+
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    const accent = getComputedStyle(document.documentElement)
+      .getPropertyValue("--gold-bright")
+      .trim();
+    const parsed = /^#?([0-9a-f]{6})$/i.exec(accent);
+    const rgb = parsed
+      ? [
+          parseInt(parsed[1].slice(0, 2), 16),
+          parseInt(parsed[1].slice(2, 4), 16),
+          parseInt(parsed[1].slice(4, 6), 16),
+        ]
+      : [242, 191, 84];
+
+    // Pre-rendered glow, drawn per frame with drawImage so no gradient is
+    // allocated inside the animation loop.
+    const RADIUS = 22;
+    const sprite = document.createElement("canvas");
+    sprite.width = sprite.height = Math.round(RADIUS * 2 * dpr);
+    const sctx = sprite.getContext("2d");
+    if (!sctx) return;
+    sctx.scale(dpr, dpr);
+    const grad = sctx.createRadialGradient(RADIUS, RADIUS, 0, RADIUS, RADIUS, RADIUS);
+    grad.addColorStop(0, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.9)`);
+    grad.addColorStop(0.45, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.22)`);
+    grad.addColorStop(1, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0)`);
+    sctx.fillStyle = grad;
+    sctx.fillRect(0, 0, RADIUS * 2, RADIUS * 2);
+
+    const dots: { x: number; y: number; life: number }[] = [];
+    const MAX_DOTS = 12;
+    const DECAY = 0.06;
+    const PEAK_ALPHA = 0.13;
+    let last = { x: 0, y: 0, seeded: false };
+    let raf = 0;
+    let running = false;
+
+    const frame = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = dots.length - 1; i >= 0; i--) {
+        const dot = dots[i];
+        dot.life -= DECAY;
+        if (dot.life <= 0) {
+          dots.splice(i, 1);
+          continue;
+        }
+        const size = RADIUS * 2 * (0.4 + dot.life * 0.6);
+        ctx.globalAlpha = dot.life * dot.life * PEAK_ALPHA;
+        ctx.drawImage(sprite, dot.x - size / 2, dot.y - size / 2, size, size);
+      }
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = "source-over";
+
+      if (dots.length > 0) {
+        raf = requestAnimationFrame(frame);
+      } else {
+        running = false;
+      }
+    };
+
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      const x = e.clientX;
+      const y = e.clientY;
+      if (last.seeded && Math.hypot(x - last.x, y - last.y) < 4) return;
+      last = { x, y, seeded: true };
+
+      dots.push({ x, y, life: 1 });
+      if (dots.length > MAX_DOTS) dots.shift();
+
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("resize", resize, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(raf);
+    };
+  }, [enabled]);
+
+  if (!enabled) return null;
+  return <canvas ref={canvasRef} className="cursor-trail" aria-hidden="true" />;
 }
 
 function onCardTrack(e: React.MouseEvent<HTMLElement>) {
@@ -233,6 +359,7 @@ export default function Home() {
   return (
     <main>
       <AmbientBackdrop />
+      <CursorTrail />
       <Navbar />
       <Hero />
       <WhatWeDo />
