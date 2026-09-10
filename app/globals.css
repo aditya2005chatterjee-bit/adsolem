@@ -477,6 +477,41 @@ main {
   margin: 0 auto;
 }
 
+/* ===== PRIVACY NOTE ===== */
+
+.privacy-note {
+  max-width: 620px;
+  margin: 56px auto 0;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.028);
+  backdrop-filter: blur(8px);
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ===== FOUNDER NOTE ===== */
+
+.founder-section {
+  position: relative;
+  padding: 40px 0 0;
+}
+
+.founder-note {
+  max-width: 660px;
+  margin: 0 auto;
+  color: rgba(248, 247, 244, 0.74);
+  font-family: var(--font-playfair-var), Georgia, serif;
+  font-size: clamp(1rem, 1.9vw, 1.12rem);
+  line-height: 1.85;
+  text-align: center;
+  text-wrap: pretty;
+}
+
 /* ===== CONTACT ===== */
 
 .contact-section {

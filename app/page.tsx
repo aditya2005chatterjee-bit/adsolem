@@ -172,6 +172,21 @@ function HowItWorks() {
             </div>
           ))}
         </div>
+        <p className="privacy-note reveal">
+          Your customer list stays yours — we never share it, sell it, or use it for anything beyond what you asked us to do.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function FounderNote() {
+  return (
+    <section className="founder-section">
+      <div className="section-grid">
+        <p className="founder-note reveal">
+          Hi, I&apos;m Aditya. I built this whole thing myself, mostly because I kept seeing the same dumb pattern: good businesses doing everything right, then losing customers who already liked them, just because nobody followed up. Felt like such an easy thing to fix that I went and built it.
+        </p>
       </div>
     </section>
   );
@@ -222,6 +237,7 @@ export default function Home() {
       <Hero />
       <WhatWeDo />
       <HowItWorks />
+      <FounderNote />
       <Contact />
       <Footer />
     </main>
