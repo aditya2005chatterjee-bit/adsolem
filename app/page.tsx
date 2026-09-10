@@ -144,7 +144,7 @@ function CursorTrail() {
 
     // Pre-rendered glow, drawn per frame with drawImage so no gradient is
     // allocated inside the animation loop.
-    const RADIUS = 22;
+    const RADIUS = 34;
     const sprite = document.createElement("canvas");
     sprite.width = sprite.height = Math.round(RADIUS * 2 * dpr);
     const sctx = sprite.getContext("2d");
@@ -158,9 +158,9 @@ function CursorTrail() {
     sctx.fillRect(0, 0, RADIUS * 2, RADIUS * 2);
 
     const dots: { x: number; y: number; life: number }[] = [];
-    const MAX_DOTS = 12;
-    const DECAY = 0.06;
-    const PEAK_ALPHA = 0.13;
+    const MAX_DOTS = 18;
+    const DECAY = 0.045;
+    const PEAK_ALPHA = 0.3;
     let last = { x: 0, y: 0, seeded: false };
     let raf = 0;
     let running = false;
@@ -175,7 +175,7 @@ function CursorTrail() {
           dots.splice(i, 1);
           continue;
         }
-        const size = RADIUS * 2 * (0.4 + dot.life * 0.6);
+        const size = RADIUS * 2 * (0.45 + dot.life * 0.55);
         ctx.globalAlpha = dot.life * dot.life * PEAK_ALPHA;
         ctx.drawImage(sprite, dot.x - size / 2, dot.y - size / 2, size, size);
       }
